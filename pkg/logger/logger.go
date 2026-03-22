@@ -1,6 +1,8 @@
 package logger
 
 import (
+	"time"
+
 	"go.uber.org/zap"
 )
 
@@ -12,10 +14,59 @@ type LoggerField struct {
 	field zap.Field
 }
 
-func(f *LoggerField) GetLoggerField() zap.Field {
-	return f.field
+func String(key string, value string) LoggerField {
+    return LoggerField{
+        field: zap.String(key, value),
+    }
 }
 
+func Error(err error) LoggerField {
+    return LoggerField{
+        field: zap.Error(err),
+    }
+}
+
+func Int(key string, value int) LoggerField {
+    return LoggerField{
+        field: zap.Int(key, value),
+    }
+}
+
+func Int64(key string, value int64) LoggerField {
+    return LoggerField{
+        field: zap.Int64(key, value),
+    }
+}
+
+func Bool(key string, value bool) LoggerField {
+    return LoggerField{
+        field: zap.Bool(key, value),
+    }
+}
+
+func Float64(key string, value float64) LoggerField {
+    return LoggerField{
+        field: zap.Float64(key, value),
+    }
+}
+
+func Any(key string, value interface{}) LoggerField {
+    return LoggerField{
+        field: zap.Any(key, value),
+    }
+}
+
+func Duration(key string, value time.Duration) LoggerField {
+    return LoggerField{
+        field: zap.Duration(key, value),
+    }
+}
+
+func Time(key string, value time.Time) LoggerField {
+    return LoggerField{
+        field: zap.Time(key, value),
+    }
+}
 
 func NewLogger() *Logger {
 	zapLogger, _ := zap.NewProduction()
