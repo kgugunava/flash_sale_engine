@@ -9,16 +9,18 @@ import (
 
 type KafkaConsumer struct {
 	reader *kafka.Reader
+	cfg KafkaConsumerConfig
 }
 
-func NewKafkaConsumer(brokerAddrs []string, topic string, groupID string) KafkaConsumerInterface {
+func NewKafkaConsumer(cfg KafkaConsumerConfig) KafkaConsumerInterface {
 	reader := kafka.NewReader(kafka.ReaderConfig{
-		Brokers: brokerAddrs,
-		Topic: topic,
-		GroupID: groupID,
+		Brokers: cfg.Brokers,
+		Topic: cfg.Topic,
+		GroupID: cfg.GroupID,
 	})
 	return &KafkaConsumer{
 		reader: reader,
+		cfg: cfg,
 	}
 }
 
@@ -29,5 +31,11 @@ func (c *KafkaConsumer) ReadMessage(ctx context.Context) KafkaMessageInterface {
 	}
 	return &KafkaMessage{
 		message: msg,
+	}
+}
+
+func (c *KafkaConsumer) Close() {
+	if err := c.reader.Close(); err != nil {
+		log.Fatal("failed to close producer writer: ", err)
 	}
 }

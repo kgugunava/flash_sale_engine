@@ -9,14 +9,16 @@ import (
 
 type KafkaProducer struct {
 	writer *kafka.Writer
+	cfg KafkaProducerConfig
 }
 
-func NewKafkaProducer(brokersAdrs []string, topic string) KafkaProducerInterface {
+func NewKafkaProducer(cfg KafkaProducerConfig) KafkaProducerInterface {
 	return &KafkaProducer{
 		writer: &kafka.Writer{
-			Addr: kafka.TCP(brokersAdrs...),
-			Topic: topic,
+			Addr: kafka.TCP(cfg.Brokers...),
+			Topic: cfg.Topic,
 		},
+		cfg: cfg,
 	}
 }
 
@@ -29,4 +31,10 @@ func (p *KafkaProducer) WriteMessages(ctx context.Context, msgs ...KafkaMessageI
 	}
 
 	return nil
+}
+
+func (p *KafkaProducer) Close() {
+	if err := p.writer.Close(); err != nil {
+		log.Fatal("failed to close producer writer: ", err)
+	}
 }

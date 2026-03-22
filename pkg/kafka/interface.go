@@ -12,8 +12,10 @@ type KafkaMessageInterface interface {
 
 type KafkaProducerInterface interface {
 	WriteMessages(ctx context.Context, msgs ...KafkaMessageInterface) error 
+	Close()
 }
 
 type KafkaConsumerInterface interface {
 	ReadMessage(ctx context.Context) KafkaMessageInterface
+	Close()
 }
