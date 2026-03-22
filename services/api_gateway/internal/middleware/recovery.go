@@ -10,7 +10,7 @@ import (
 	models_errors "github.com/kgugunava/flash_sale_engine/api_gateway/internal/model/errors"
 )
 
-func RecoveryMiddleware(log logger.Logger) gin.HandlerFunc{
+func RecoveryMiddleware(log *logger.Logger) gin.HandlerFunc{
 	return func(c *gin.Context) {
 		defer func() {
 
@@ -38,7 +38,7 @@ func RecoveryMiddleware(log logger.Logger) gin.HandlerFunc{
 
 			c.Abort()
 		}()
-		
+
 		c.Next()
 	}
 }
