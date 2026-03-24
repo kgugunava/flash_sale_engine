@@ -5,6 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"github.com/kgugunava/flash_sale_engine/api_gateway/internal/transport/http/handler"
+
 )
 
 type Route struct {
@@ -14,11 +16,11 @@ type Route struct {
 	HandlerFunc gin.HandlerFunc
 }
 
-func NewRouter(handleFunctions ApiHandleFunctions) *gin.Engine {
-	return NewRouterWithGinEngine(gin.Default(), handleFunctions)
+func NewRouter(handlers ApiHandlers) *gin.Engine {
+	return NewRouterWithGinEngine(gin.Default(), handlers)
 }
 
-func NewRouterWithGinEngine(router *gin.Engine, handleFunctions ApiHandleFunctions) *gin.Engine {
+func NewRouterWithGinEngine(router *gin.Engine, handleFunctions ApiHandlers) *gin.Engine {
 	for _, route := range getRoutes(handleFunctions) {
 		if route.HandlerFunc == nil {
 			route.HandlerFunc = DefaultHandleFunc
@@ -45,12 +47,41 @@ func DefaultHandleFunc(c *gin.Context) {
 	c.String(http.StatusNotImplemented, "501 not implemented")
 }
 
-type ApiHandleFunctions struct {
-
+type ApiHandlers struct {
+	OrdersHandlers handler.OrdersHandler
 }
 
-func getRoutes(handleFunctions ApiHandleFunctions) []Route {
+func getRoutes(handlers ApiHandlers) []Route {
 	return []Route{ 
-		
+		{
+			Name: "CreateOrderPost",
+			Method: http.MethodPost,
+			URLPattern: "orders/create",
+			HandlerFunc: handlers.OrdersHandlers.CreateOrderPost,
+		},
+		{
+			Name: "CancelOrderPost",
+			Method: http.MethodPost,
+			URLPattern: "orders/cancel/:order_id",
+			HandlerFunc: handlers.OrdersHandlers.CancelOrderPost,
+		},
+		{
+			Name: "GetOrdersListGet",
+			Method: http.MethodGet,
+			URLPattern: "orders/list",
+			HandlerFunc: handlers.OrdersHandlers.GetOrdersListGet,
+		},
+		{
+			Name: "GetUserOrdersListGet",
+			Method: http.MethodGet,
+			URLPattern: "orders/users/:user_id",
+			HandlerFunc: handlers.OrdersHandlers.GetUserOrdersListGet,
+		},
+		{
+			Name: "PayForOrderPost",
+			Method: http.MethodPost,
+			URLPattern: "orders/pay/:order_id",
+			HandlerFunc: handlers.OrdersHandlers.PayForOrderPost,
+		},
 	}
 }
