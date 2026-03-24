@@ -51,5 +51,5 @@ func LoggingMiddleware(log *logger.Logger) gin.HandlerFunc {
             logger.Time("end_time", time.Now()),
         )
 	}
-
+	
 }
