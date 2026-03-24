@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package order;
+
+option go_package = "github.com/kgugunava/flash_sale_engine/shared/proto/order";
+
+import "google/protobuf/timestamp.proto";
+
+// The service to manage orders
+service OrderService {
+    // Creates new order
+    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+    // Cancels existing order
+    rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
+    // Returns list of all existing orders
+    rpc GetOrdersList(GetOrdersListRequest) returns (GetOrdersListResponse);
+    // Returns list of all existing orders for certain user
+    rpc GetUserOrdersList(GetUserOrdersListRequest) returns (GetUserOrdersListResponse);
+}
+
+message CreateOrderRequest {
+    string user_id = 1; 
+    string item_name = 2;
+    google.protobuf.Timestamp time = 3;
+}
+
+message CancelOrderRequest {
+    string order_id = 1;
+}
+
+message GetOrdersListRequest {
+
+}
+
+message GetUserOrdersListRequest {
+    string user_id = 1;
+}
+
+message CreateOrderResponse {
+
+}
+
+message CancelOrderResponse {
+
+}
+
+message GetOrdersListResponse {
+
+}
+
+message GetUserOrdersListResponse {
+
+}

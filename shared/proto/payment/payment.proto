@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package payment;
+
+option go_package = "github.com/kgugunava/flash_sale_engine/shared/proto/payment";
+
+// The service to manage payment process
+service PaymentService {
+    // Makes payment for reserved item
+    rpc MakePayment(MakePaymentRequest) returns (MakePaymentResponse);
+}
+
+message MakePaymentRequest {
+
+}
+
+message MakePaymentResponse {
+
+}

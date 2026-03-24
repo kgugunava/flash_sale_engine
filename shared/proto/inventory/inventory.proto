@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package inventory;
+
+option go_package = "github.com/kgugunava/flash_sale_engine/shared/proto/inventory";
+
+// The service to manage inventory
+service InventoryService {
+    // Reserves item after user create an order
+    rpc ReserveItem(ReserveItemRequest) returns (ReserveItemResponse);
+    // Returns item to the inventory if user cancels the order before payment
+    rpc ReturnItemBeforePayment(ReturnItemRequest) returns (ReturnItemResponse);
+
+}
+
+message ReturnItemRequest {
+
+}
+
+message ReserveItemRequest {
+
+}
+
+message ReturnItemResponse {
+
+}
+
+message ReserveItemResponse {
+
+}
