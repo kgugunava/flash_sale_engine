@@ -21,42 +21,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ReturnItemRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ReturnItemRequest) Reset() {
-	*x = ReturnItemRequest{}
-	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ReturnItemRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ReturnItemRequest) ProtoMessage() {}
-
-func (x *ReturnItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ReturnItemRequest.ProtoReflect.Descriptor instead.
-func (*ReturnItemRequest) Descriptor() ([]byte, []int) {
-	return file_shared_proto_inventory_inventory_proto_rawDescGZIP(), []int{0}
-}
-
 type ReserveItemRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -65,7 +29,7 @@ type ReserveItemRequest struct {
 
 func (x *ReserveItemRequest) Reset() {
 	*x = ReserveItemRequest{}
-	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[1]
+	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -77,7 +41,7 @@ func (x *ReserveItemRequest) String() string {
 func (*ReserveItemRequest) ProtoMessage() {}
 
 func (x *ReserveItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[1]
+	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -90,30 +54,30 @@ func (x *ReserveItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReserveItemRequest.ProtoReflect.Descriptor instead.
 func (*ReserveItemRequest) Descriptor() ([]byte, []int) {
-	return file_shared_proto_inventory_inventory_proto_rawDescGZIP(), []int{1}
+	return file_shared_proto_inventory_inventory_proto_rawDescGZIP(), []int{0}
 }
 
-type ReturnItemResponse struct {
+type CancelReservationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ReturnItemResponse) Reset() {
-	*x = ReturnItemResponse{}
-	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[2]
+func (x *CancelReservationRequest) Reset() {
+	*x = CancelReservationRequest{}
+	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ReturnItemResponse) String() string {
+func (x *CancelReservationRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ReturnItemResponse) ProtoMessage() {}
+func (*CancelReservationRequest) ProtoMessage() {}
 
-func (x *ReturnItemResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[2]
+func (x *CancelReservationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -124,9 +88,9 @@ func (x *ReturnItemResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ReturnItemResponse.ProtoReflect.Descriptor instead.
-func (*ReturnItemResponse) Descriptor() ([]byte, []int) {
-	return file_shared_proto_inventory_inventory_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use CancelReservationRequest.ProtoReflect.Descriptor instead.
+func (*CancelReservationRequest) Descriptor() ([]byte, []int) {
+	return file_shared_proto_inventory_inventory_proto_rawDescGZIP(), []int{1}
 }
 
 type ReserveItemResponse struct {
@@ -137,7 +101,7 @@ type ReserveItemResponse struct {
 
 func (x *ReserveItemResponse) Reset() {
 	*x = ReserveItemResponse{}
-	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[3]
+	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -149,7 +113,7 @@ func (x *ReserveItemResponse) String() string {
 func (*ReserveItemResponse) ProtoMessage() {}
 
 func (x *ReserveItemResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[3]
+	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -162,6 +126,42 @@ func (x *ReserveItemResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReserveItemResponse.ProtoReflect.Descriptor instead.
 func (*ReserveItemResponse) Descriptor() ([]byte, []int) {
+	return file_shared_proto_inventory_inventory_proto_rawDescGZIP(), []int{2}
+}
+
+type CancelReservationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CancelReservationResponse) Reset() {
+	*x = CancelReservationResponse{}
+	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CancelReservationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CancelReservationResponse) ProtoMessage() {}
+
+func (x *CancelReservationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CancelReservationResponse.ProtoReflect.Descriptor instead.
+func (*CancelReservationResponse) Descriptor() ([]byte, []int) {
 	return file_shared_proto_inventory_inventory_proto_rawDescGZIP(), []int{3}
 }
 
@@ -169,14 +169,14 @@ var File_shared_proto_inventory_inventory_proto protoreflect.FileDescriptor
 
 const file_shared_proto_inventory_inventory_proto_rawDesc = "" +
 	"\n" +
-	"&shared/proto/inventory/inventory.proto\x12\tinventory\"\x13\n" +
-	"\x11ReturnItemRequest\"\x14\n" +
-	"\x12ReserveItemRequest\"\x14\n" +
-	"\x12ReturnItemResponse\"\x15\n" +
-	"\x13ReserveItemResponse2\xb8\x01\n" +
+	"&shared/proto/inventory/inventory.proto\x12\tinventory\"\x14\n" +
+	"\x12ReserveItemRequest\"\x1a\n" +
+	"\x18CancelReservationRequest\"\x15\n" +
+	"\x13ReserveItemResponse\"\x1b\n" +
+	"\x19CancelReservationResponse2\xc0\x01\n" +
 	"\x10InventoryService\x12L\n" +
-	"\vReserveItem\x12\x1d.inventory.ReserveItemRequest\x1a\x1e.inventory.ReserveItemResponse\x12V\n" +
-	"\x17ReturnItemBeforePayment\x12\x1c.inventory.ReturnItemRequest\x1a\x1d.inventory.ReturnItemResponseB?Z=github.com/kgugunava/flash_sale_engine/shared/proto/inventoryb\x06proto3"
+	"\vReserveItem\x12\x1d.inventory.ReserveItemRequest\x1a\x1e.inventory.ReserveItemResponse\x12^\n" +
+	"\x11CancelReservation\x12#.inventory.CancelReservationRequest\x1a$.inventory.CancelReservationResponseB?Z=github.com/kgugunava/flash_sale_engine/shared/proto/inventoryb\x06proto3"
 
 var (
 	file_shared_proto_inventory_inventory_proto_rawDescOnce sync.Once
@@ -192,16 +192,16 @@ func file_shared_proto_inventory_inventory_proto_rawDescGZIP() []byte {
 
 var file_shared_proto_inventory_inventory_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_shared_proto_inventory_inventory_proto_goTypes = []any{
-	(*ReturnItemRequest)(nil),   // 0: inventory.ReturnItemRequest
-	(*ReserveItemRequest)(nil),  // 1: inventory.ReserveItemRequest
-	(*ReturnItemResponse)(nil),  // 2: inventory.ReturnItemResponse
-	(*ReserveItemResponse)(nil), // 3: inventory.ReserveItemResponse
+	(*ReserveItemRequest)(nil),        // 0: inventory.ReserveItemRequest
+	(*CancelReservationRequest)(nil),  // 1: inventory.CancelReservationRequest
+	(*ReserveItemResponse)(nil),       // 2: inventory.ReserveItemResponse
+	(*CancelReservationResponse)(nil), // 3: inventory.CancelReservationResponse
 }
 var file_shared_proto_inventory_inventory_proto_depIdxs = []int32{
-	1, // 0: inventory.InventoryService.ReserveItem:input_type -> inventory.ReserveItemRequest
-	0, // 1: inventory.InventoryService.ReturnItemBeforePayment:input_type -> inventory.ReturnItemRequest
-	3, // 2: inventory.InventoryService.ReserveItem:output_type -> inventory.ReserveItemResponse
-	2, // 3: inventory.InventoryService.ReturnItemBeforePayment:output_type -> inventory.ReturnItemResponse
+	0, // 0: inventory.InventoryService.ReserveItem:input_type -> inventory.ReserveItemRequest
+	1, // 1: inventory.InventoryService.CancelReservation:input_type -> inventory.CancelReservationRequest
+	2, // 2: inventory.InventoryService.ReserveItem:output_type -> inventory.ReserveItemResponse
+	3, // 3: inventory.InventoryService.CancelReservation:output_type -> inventory.CancelReservationResponse
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

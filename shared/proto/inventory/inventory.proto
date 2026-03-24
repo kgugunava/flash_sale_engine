@@ -8,12 +8,8 @@ option go_package = "github.com/kgugunava/flash_sale_engine/shared/proto/invento
 service InventoryService {
     // Reserves item after user create an order
     rpc ReserveItem(ReserveItemRequest) returns (ReserveItemResponse);
-    // Returns item to the inventory if user cancels the order before payment
-    rpc ReturnItemBeforePayment(ReturnItemRequest) returns (ReturnItemResponse);
-
-}
-
-message ReturnItemRequest {
+    // Cancel user's reservation 
+    rpc CancelReservation(CancelReservationRequest) returns (CancelReservationResponse);
 
 }
 
@@ -21,10 +17,14 @@ message ReserveItemRequest {
 
 }
 
-message ReturnItemResponse {
+message CancelReservationRequest {
 
 }
 
 message ReserveItemResponse {
 
+}
+
+message CancelReservationResponse {
+    
 }
