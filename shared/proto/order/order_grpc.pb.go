@@ -23,6 +23,7 @@ const (
 	OrderService_CancelOrder_FullMethodName       = "/order.OrderService/CancelOrder"
 	OrderService_GetOrdersList_FullMethodName     = "/order.OrderService/GetOrdersList"
 	OrderService_GetUserOrdersList_FullMethodName = "/order.OrderService/GetUserOrdersList"
+	OrderService_PayForOrder_FullMethodName       = "/order.OrderService/PayForOrder"
 )
 
 // OrderServiceClient is the client API for OrderService service.
@@ -39,6 +40,8 @@ type OrderServiceClient interface {
 	GetOrdersList(ctx context.Context, in *GetOrdersListRequest, opts ...grpc.CallOption) (*GetOrdersListResponse, error)
 	// Returns list of all existing orders for certain user
 	GetUserOrdersList(ctx context.Context, in *GetUserOrdersListRequest, opts ...grpc.CallOption) (*GetUserOrdersListResponse, error)
+	// Initialize payment for existing order
+	PayForOrder(ctx context.Context, in *PayForOrderRequest, opts ...grpc.CallOption) (*PayForOrderResponse, error)
 }
 
 type orderServiceClient struct {
@@ -89,6 +92,16 @@ func (c *orderServiceClient) GetUserOrdersList(ctx context.Context, in *GetUserO
 	return out, nil
 }
 
+func (c *orderServiceClient) PayForOrder(ctx context.Context, in *PayForOrderRequest, opts ...grpc.CallOption) (*PayForOrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PayForOrderResponse)
+	err := c.cc.Invoke(ctx, OrderService_PayForOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServiceServer is the server API for OrderService service.
 // All implementations must embed UnimplementedOrderServiceServer
 // for forward compatibility.
@@ -103,6 +116,8 @@ type OrderServiceServer interface {
 	GetOrdersList(context.Context, *GetOrdersListRequest) (*GetOrdersListResponse, error)
 	// Returns list of all existing orders for certain user
 	GetUserOrdersList(context.Context, *GetUserOrdersListRequest) (*GetUserOrdersListResponse, error)
+	// Initialize payment for existing order
+	PayForOrder(context.Context, *PayForOrderRequest) (*PayForOrderResponse, error)
 	mustEmbedUnimplementedOrderServiceServer()
 }
 
@@ -124,6 +139,9 @@ func (UnimplementedOrderServiceServer) GetOrdersList(context.Context, *GetOrders
 }
 func (UnimplementedOrderServiceServer) GetUserOrdersList(context.Context, *GetUserOrdersListRequest) (*GetUserOrdersListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUserOrdersList not implemented")
+}
+func (UnimplementedOrderServiceServer) PayForOrder(context.Context, *PayForOrderRequest) (*PayForOrderResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PayForOrder not implemented")
 }
 func (UnimplementedOrderServiceServer) mustEmbedUnimplementedOrderServiceServer() {}
 func (UnimplementedOrderServiceServer) testEmbeddedByValue()                      {}
@@ -218,6 +236,24 @@ func _OrderService_GetUserOrdersList_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderService_PayForOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PayForOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServiceServer).PayForOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrderService_PayForOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServiceServer).PayForOrder(ctx, req.(*PayForOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderService_ServiceDesc is the grpc.ServiceDesc for OrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -240,6 +276,10 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserOrdersList",
 			Handler:    _OrderService_GetUserOrdersList_Handler,
+		},
+		{
+			MethodName: "PayForOrder",
+			Handler:    _OrderService_PayForOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

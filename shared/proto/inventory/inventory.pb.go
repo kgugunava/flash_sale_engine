@@ -7,6 +7,8 @@
 package inventory
 
 import (
+	common "github.com/kgugunava/flash_sale_engine/shared/proto/common"
+	order "github.com/kgugunava/flash_sale_engine/shared/proto/order"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -21,26 +23,27 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ReserveItemRequest struct {
+type ReserveItemsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Order         *order.Order           `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ReserveItemRequest) Reset() {
-	*x = ReserveItemRequest{}
+func (x *ReserveItemsRequest) Reset() {
+	*x = ReserveItemsRequest{}
 	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ReserveItemRequest) String() string {
+func (x *ReserveItemsRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ReserveItemRequest) ProtoMessage() {}
+func (*ReserveItemsRequest) ProtoMessage() {}
 
-func (x *ReserveItemRequest) ProtoReflect() protoreflect.Message {
+func (x *ReserveItemsRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -52,13 +55,21 @@ func (x *ReserveItemRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ReserveItemRequest.ProtoReflect.Descriptor instead.
-func (*ReserveItemRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ReserveItemsRequest.ProtoReflect.Descriptor instead.
+func (*ReserveItemsRequest) Descriptor() ([]byte, []int) {
 	return file_shared_proto_inventory_inventory_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *ReserveItemsRequest) GetOrder() *order.Order {
+	if x != nil {
+		return x.Order
+	}
+	return nil
 }
 
 type CancelReservationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ReservationId string                 `protobuf:"bytes,1,opt,name=reservation_id,json=reservationId,proto3" json:"reservation_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -93,26 +104,36 @@ func (*CancelReservationRequest) Descriptor() ([]byte, []int) {
 	return file_shared_proto_inventory_inventory_proto_rawDescGZIP(), []int{1}
 }
 
-type ReserveItemResponse struct {
+func (x *CancelReservationRequest) GetReservationId() string {
+	if x != nil {
+		return x.ReservationId
+	}
+	return ""
+}
+
+type ReserveItemsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ReservationId string                 `protobuf:"bytes,1,opt,name=reservation_id,json=reservationId,proto3" json:"reservation_id,omitempty"`
+	Status        *common.ResponseStatus `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	Error         *common.ResponseError  `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ReserveItemResponse) Reset() {
-	*x = ReserveItemResponse{}
+func (x *ReserveItemsResponse) Reset() {
+	*x = ReserveItemsResponse{}
 	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ReserveItemResponse) String() string {
+func (x *ReserveItemsResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ReserveItemResponse) ProtoMessage() {}
+func (*ReserveItemsResponse) ProtoMessage() {}
 
-func (x *ReserveItemResponse) ProtoReflect() protoreflect.Message {
+func (x *ReserveItemsResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_shared_proto_inventory_inventory_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -124,13 +145,37 @@ func (x *ReserveItemResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ReserveItemResponse.ProtoReflect.Descriptor instead.
-func (*ReserveItemResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ReserveItemsResponse.ProtoReflect.Descriptor instead.
+func (*ReserveItemsResponse) Descriptor() ([]byte, []int) {
 	return file_shared_proto_inventory_inventory_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ReserveItemsResponse) GetReservationId() string {
+	if x != nil {
+		return x.ReservationId
+	}
+	return ""
+}
+
+func (x *ReserveItemsResponse) GetStatus() *common.ResponseStatus {
+	if x != nil {
+		return x.Status
+	}
+	return nil
+}
+
+func (x *ReserveItemsResponse) GetError() *common.ResponseError {
+	if x != nil {
+		return x.Error
+	}
+	return nil
 }
 
 type CancelReservationResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	ReservationId string                 `protobuf:"bytes,1,opt,name=reservation_id,json=reservationId,proto3" json:"reservation_id,omitempty"`
+	Status        *common.ResponseStatus `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
+	Error         *common.ResponseError  `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -165,17 +210,46 @@ func (*CancelReservationResponse) Descriptor() ([]byte, []int) {
 	return file_shared_proto_inventory_inventory_proto_rawDescGZIP(), []int{3}
 }
 
+func (x *CancelReservationResponse) GetReservationId() string {
+	if x != nil {
+		return x.ReservationId
+	}
+	return ""
+}
+
+func (x *CancelReservationResponse) GetStatus() *common.ResponseStatus {
+	if x != nil {
+		return x.Status
+	}
+	return nil
+}
+
+func (x *CancelReservationResponse) GetError() *common.ResponseError {
+	if x != nil {
+		return x.Error
+	}
+	return nil
+}
+
 var File_shared_proto_inventory_inventory_proto protoreflect.FileDescriptor
 
 const file_shared_proto_inventory_inventory_proto_rawDesc = "" +
 	"\n" +
-	"&shared/proto/inventory/inventory.proto\x12\tinventory\"\x14\n" +
-	"\x12ReserveItemRequest\"\x1a\n" +
-	"\x18CancelReservationRequest\"\x15\n" +
-	"\x13ReserveItemResponse\"\x1b\n" +
-	"\x19CancelReservationResponse2\xc0\x01\n" +
-	"\x10InventoryService\x12L\n" +
-	"\vReserveItem\x12\x1d.inventory.ReserveItemRequest\x1a\x1e.inventory.ReserveItemResponse\x12^\n" +
+	"&shared/proto/inventory/inventory.proto\x12\tinventory\x1a shared/proto/common/common.proto\x1a\x1eshared/proto/order/order.proto\"9\n" +
+	"\x13ReserveItemsRequest\x12\"\n" +
+	"\x05order\x18\x01 \x01(\v2\f.order.OrderR\x05order\"A\n" +
+	"\x18CancelReservationRequest\x12%\n" +
+	"\x0ereservation_id\x18\x01 \x01(\tR\rreservationId\"\x9a\x01\n" +
+	"\x14ReserveItemsResponse\x12%\n" +
+	"\x0ereservation_id\x18\x01 \x01(\tR\rreservationId\x12.\n" +
+	"\x06status\x18\x02 \x01(\v2\x16.common.ResponseStatusR\x06status\x12+\n" +
+	"\x05error\x18\x03 \x01(\v2\x15.common.ResponseErrorR\x05error\"\x9f\x01\n" +
+	"\x19CancelReservationResponse\x12%\n" +
+	"\x0ereservation_id\x18\x01 \x01(\tR\rreservationId\x12.\n" +
+	"\x06status\x18\x02 \x01(\v2\x16.common.ResponseStatusR\x06status\x12+\n" +
+	"\x05error\x18\x03 \x01(\v2\x15.common.ResponseErrorR\x05error2\xc3\x01\n" +
+	"\x10InventoryService\x12O\n" +
+	"\fReserveItems\x12\x1e.inventory.ReserveItemsRequest\x1a\x1f.inventory.ReserveItemsResponse\x12^\n" +
 	"\x11CancelReservation\x12#.inventory.CancelReservationRequest\x1a$.inventory.CancelReservationResponseB?Z=github.com/kgugunava/flash_sale_engine/shared/proto/inventoryb\x06proto3"
 
 var (
@@ -192,21 +266,29 @@ func file_shared_proto_inventory_inventory_proto_rawDescGZIP() []byte {
 
 var file_shared_proto_inventory_inventory_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_shared_proto_inventory_inventory_proto_goTypes = []any{
-	(*ReserveItemRequest)(nil),        // 0: inventory.ReserveItemRequest
+	(*ReserveItemsRequest)(nil),       // 0: inventory.ReserveItemsRequest
 	(*CancelReservationRequest)(nil),  // 1: inventory.CancelReservationRequest
-	(*ReserveItemResponse)(nil),       // 2: inventory.ReserveItemResponse
+	(*ReserveItemsResponse)(nil),      // 2: inventory.ReserveItemsResponse
 	(*CancelReservationResponse)(nil), // 3: inventory.CancelReservationResponse
+	(*order.Order)(nil),               // 4: order.Order
+	(*common.ResponseStatus)(nil),     // 5: common.ResponseStatus
+	(*common.ResponseError)(nil),      // 6: common.ResponseError
 }
 var file_shared_proto_inventory_inventory_proto_depIdxs = []int32{
-	0, // 0: inventory.InventoryService.ReserveItem:input_type -> inventory.ReserveItemRequest
-	1, // 1: inventory.InventoryService.CancelReservation:input_type -> inventory.CancelReservationRequest
-	2, // 2: inventory.InventoryService.ReserveItem:output_type -> inventory.ReserveItemResponse
-	3, // 3: inventory.InventoryService.CancelReservation:output_type -> inventory.CancelReservationResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	4, // 0: inventory.ReserveItemsRequest.order:type_name -> order.Order
+	5, // 1: inventory.ReserveItemsResponse.status:type_name -> common.ResponseStatus
+	6, // 2: inventory.ReserveItemsResponse.error:type_name -> common.ResponseError
+	5, // 3: inventory.CancelReservationResponse.status:type_name -> common.ResponseStatus
+	6, // 4: inventory.CancelReservationResponse.error:type_name -> common.ResponseError
+	0, // 5: inventory.InventoryService.ReserveItems:input_type -> inventory.ReserveItemsRequest
+	1, // 6: inventory.InventoryService.CancelReservation:input_type -> inventory.CancelReservationRequest
+	2, // 7: inventory.InventoryService.ReserveItems:output_type -> inventory.ReserveItemsResponse
+	3, // 8: inventory.InventoryService.CancelReservation:output_type -> inventory.CancelReservationResponse
+	7, // [7:9] is the sub-list for method output_type
+	5, // [5:7] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_shared_proto_inventory_inventory_proto_init() }

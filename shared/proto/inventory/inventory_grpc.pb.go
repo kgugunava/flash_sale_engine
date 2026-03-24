@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	InventoryService_ReserveItem_FullMethodName       = "/inventory.InventoryService/ReserveItem"
+	InventoryService_ReserveItems_FullMethodName      = "/inventory.InventoryService/ReserveItems"
 	InventoryService_CancelReservation_FullMethodName = "/inventory.InventoryService/CancelReservation"
 )
 
@@ -30,7 +30,7 @@ const (
 // The service to manage inventory
 type InventoryServiceClient interface {
 	// Reserves item after user create an order
-	ReserveItem(ctx context.Context, in *ReserveItemRequest, opts ...grpc.CallOption) (*ReserveItemResponse, error)
+	ReserveItems(ctx context.Context, in *ReserveItemsRequest, opts ...grpc.CallOption) (*ReserveItemsResponse, error)
 	// Cancel user's reservation
 	CancelReservation(ctx context.Context, in *CancelReservationRequest, opts ...grpc.CallOption) (*CancelReservationResponse, error)
 }
@@ -43,10 +43,10 @@ func NewInventoryServiceClient(cc grpc.ClientConnInterface) InventoryServiceClie
 	return &inventoryServiceClient{cc}
 }
 
-func (c *inventoryServiceClient) ReserveItem(ctx context.Context, in *ReserveItemRequest, opts ...grpc.CallOption) (*ReserveItemResponse, error) {
+func (c *inventoryServiceClient) ReserveItems(ctx context.Context, in *ReserveItemsRequest, opts ...grpc.CallOption) (*ReserveItemsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ReserveItemResponse)
-	err := c.cc.Invoke(ctx, InventoryService_ReserveItem_FullMethodName, in, out, cOpts...)
+	out := new(ReserveItemsResponse)
+	err := c.cc.Invoke(ctx, InventoryService_ReserveItems_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (c *inventoryServiceClient) CancelReservation(ctx context.Context, in *Canc
 // The service to manage inventory
 type InventoryServiceServer interface {
 	// Reserves item after user create an order
-	ReserveItem(context.Context, *ReserveItemRequest) (*ReserveItemResponse, error)
+	ReserveItems(context.Context, *ReserveItemsRequest) (*ReserveItemsResponse, error)
 	// Cancel user's reservation
 	CancelReservation(context.Context, *CancelReservationRequest) (*CancelReservationResponse, error)
 	mustEmbedUnimplementedInventoryServiceServer()
@@ -83,8 +83,8 @@ type InventoryServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedInventoryServiceServer struct{}
 
-func (UnimplementedInventoryServiceServer) ReserveItem(context.Context, *ReserveItemRequest) (*ReserveItemResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ReserveItem not implemented")
+func (UnimplementedInventoryServiceServer) ReserveItems(context.Context, *ReserveItemsRequest) (*ReserveItemsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReserveItems not implemented")
 }
 func (UnimplementedInventoryServiceServer) CancelReservation(context.Context, *CancelReservationRequest) (*CancelReservationResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CancelReservation not implemented")
@@ -110,20 +110,20 @@ func RegisterInventoryServiceServer(s grpc.ServiceRegistrar, srv InventoryServic
 	s.RegisterService(&InventoryService_ServiceDesc, srv)
 }
 
-func _InventoryService_ReserveItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReserveItemRequest)
+func _InventoryService_ReserveItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReserveItemsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(InventoryServiceServer).ReserveItem(ctx, in)
+		return srv.(InventoryServiceServer).ReserveItems(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: InventoryService_ReserveItem_FullMethodName,
+		FullMethod: InventoryService_ReserveItems_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(InventoryServiceServer).ReserveItem(ctx, req.(*ReserveItemRequest))
+		return srv.(InventoryServiceServer).ReserveItems(ctx, req.(*ReserveItemsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -154,8 +154,8 @@ var InventoryService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*InventoryServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ReserveItem",
-			Handler:    _InventoryService_ReserveItem_Handler,
+			MethodName: "ReserveItems",
+			Handler:    _InventoryService_ReserveItems_Handler,
 		},
 		{
 			MethodName: "CancelReservation",

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package common;
+
+option go_package = "github.com/kgugunava/flash_sale_engine/shared/proto/common";
+
+                                                ////// DATA STRUCTURES  //////
+
+// Common message for response status
+message ResponseStatus {
+    bool success = 1;
+    string code = 2;
+    string message = 3;
+}
+
+// Common message for response error
+message ResponseError {
+    string code = 1;
+    string message = 2;
+    repeated string error_details = 3;
+}
