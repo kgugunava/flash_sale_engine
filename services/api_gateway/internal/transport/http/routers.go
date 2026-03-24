@@ -48,7 +48,11 @@ func DefaultHandleFunc(c *gin.Context) {
 }
 
 type ApiHandlers struct {
-	OrdersHandlers handler.OrdersHandler
+	OrdersHandler handler.OrdersHandler
+}
+
+func NewApiHandlers(ordersHandler *handler.OrdersHandler) *ApiHandlers {
+	return &ApiHandlers{}
 }
 
 func getRoutes(handlers ApiHandlers) []Route {
@@ -57,31 +61,31 @@ func getRoutes(handlers ApiHandlers) []Route {
 			Name: "CreateOrderPost",
 			Method: http.MethodPost,
 			URLPattern: "orders/create",
-			HandlerFunc: handlers.OrdersHandlers.CreateOrderPost,
+			HandlerFunc: handlers.OrdersHandler.CreateOrderPost,
 		},
 		{
 			Name: "CancelOrderPost",
 			Method: http.MethodPost,
 			URLPattern: "orders/cancel/:order_id",
-			HandlerFunc: handlers.OrdersHandlers.CancelOrderPost,
+			HandlerFunc: handlers.OrdersHandler.CancelOrderPost,
 		},
 		{
 			Name: "GetOrdersListGet",
 			Method: http.MethodGet,
 			URLPattern: "orders/list",
-			HandlerFunc: handlers.OrdersHandlers.GetOrdersListGet,
+			HandlerFunc: handlers.OrdersHandler.GetOrdersListGet,
 		},
 		{
 			Name: "GetUserOrdersListGet",
 			Method: http.MethodGet,
 			URLPattern: "orders/users/:user_id",
-			HandlerFunc: handlers.OrdersHandlers.GetUserOrdersListGet,
+			HandlerFunc: handlers.OrdersHandler.GetUserOrdersListGet,
 		},
 		{
 			Name: "PayForOrderPost",
 			Method: http.MethodPost,
 			URLPattern: "orders/pay/:order_id",
-			HandlerFunc: handlers.OrdersHandlers.PayForOrderPost,
+			HandlerFunc: handlers.OrdersHandler.PayForOrderPost,
 		},
 	}
 }

@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -8,7 +10,14 @@ type OrdersHandler struct {
 
 }
 
+func NewOrdersHandler() *OrdersHandler {
+	return &OrdersHandler{}
+}
+
 func (h *OrdersHandler) CreateOrderPost(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": "OK",
+	})
 	
 }
 
