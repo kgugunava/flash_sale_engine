@@ -285,7 +285,7 @@ func (x *GetUserOrdersListRequest) GetUserId() string {
 
 type PayForOrderRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Order         *Order                 `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -320,11 +320,11 @@ func (*PayForOrderRequest) Descriptor() ([]byte, []int) {
 	return file_shared_proto_order_order_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *PayForOrderRequest) GetOrder() *Order {
+func (x *PayForOrderRequest) GetOrderId() string {
 	if x != nil {
-		return x.Order
+		return x.OrderId
 	}
-	return nil
+	return ""
 }
 
 type CreateOrderResponse struct {
@@ -630,9 +630,9 @@ const file_shared_proto_order_order_proto_rawDesc = "" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"\x16\n" +
 	"\x14GetOrdersListRequest\"3\n" +
 	"\x18GetUserOrdersListRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"8\n" +
-	"\x12PayForOrderRequest\x12\"\n" +
-	"\x05order\x18\x01 \x01(\v2\f.order.OrderR\x05order\"\x96\x01\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"/\n" +
+	"\x12PayForOrderRequest\x12\x19\n" +
+	"\border_id\x18\x01 \x01(\tR\aorderId\"\x96\x01\n" +
 	"\x13CreateOrderResponse\x12\"\n" +
 	"\x05order\x18\x01 \x01(\v2\f.order.OrderR\x05order\x12.\n" +
 	"\x06status\x18\x02 \x01(\v2\x16.common.ResponseStatusR\x06status\x12+\n" +
@@ -692,35 +692,34 @@ var file_shared_proto_order_order_proto_goTypes = []any{
 var file_shared_proto_order_order_proto_depIdxs = []int32{
 	11, // 0: order.Order.time:type_name -> google.protobuf.Timestamp
 	11, // 1: order.CreateOrderRequest.time:type_name -> google.protobuf.Timestamp
-	0,  // 2: order.PayForOrderRequest.order:type_name -> order.Order
-	0,  // 3: order.CreateOrderResponse.order:type_name -> order.Order
-	12, // 4: order.CreateOrderResponse.status:type_name -> common.ResponseStatus
-	13, // 5: order.CreateOrderResponse.error:type_name -> common.ResponseError
-	12, // 6: order.CancelOrderResponse.status:type_name -> common.ResponseStatus
-	13, // 7: order.CancelOrderResponse.error:type_name -> common.ResponseError
-	0,  // 8: order.GetOrdersListResponse.orders_list:type_name -> order.Order
-	12, // 9: order.GetOrdersListResponse.status:type_name -> common.ResponseStatus
-	13, // 10: order.GetOrdersListResponse.error:type_name -> common.ResponseError
-	0,  // 11: order.GetUserOrdersListResponse.orders_list:type_name -> order.Order
-	12, // 12: order.GetUserOrdersListResponse.status:type_name -> common.ResponseStatus
-	13, // 13: order.GetUserOrdersListResponse.error:type_name -> common.ResponseError
-	12, // 14: order.PayForOrderResponse.status:type_name -> common.ResponseStatus
-	13, // 15: order.PayForOrderResponse.error:type_name -> common.ResponseError
-	1,  // 16: order.OrderService.CreateOrder:input_type -> order.CreateOrderRequest
-	2,  // 17: order.OrderService.CancelOrder:input_type -> order.CancelOrderRequest
-	3,  // 18: order.OrderService.GetOrdersList:input_type -> order.GetOrdersListRequest
-	4,  // 19: order.OrderService.GetUserOrdersList:input_type -> order.GetUserOrdersListRequest
-	5,  // 20: order.OrderService.PayForOrder:input_type -> order.PayForOrderRequest
-	6,  // 21: order.OrderService.CreateOrder:output_type -> order.CreateOrderResponse
-	7,  // 22: order.OrderService.CancelOrder:output_type -> order.CancelOrderResponse
-	8,  // 23: order.OrderService.GetOrdersList:output_type -> order.GetOrdersListResponse
-	9,  // 24: order.OrderService.GetUserOrdersList:output_type -> order.GetUserOrdersListResponse
-	10, // 25: order.OrderService.PayForOrder:output_type -> order.PayForOrderResponse
-	21, // [21:26] is the sub-list for method output_type
-	16, // [16:21] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	0,  // 2: order.CreateOrderResponse.order:type_name -> order.Order
+	12, // 3: order.CreateOrderResponse.status:type_name -> common.ResponseStatus
+	13, // 4: order.CreateOrderResponse.error:type_name -> common.ResponseError
+	12, // 5: order.CancelOrderResponse.status:type_name -> common.ResponseStatus
+	13, // 6: order.CancelOrderResponse.error:type_name -> common.ResponseError
+	0,  // 7: order.GetOrdersListResponse.orders_list:type_name -> order.Order
+	12, // 8: order.GetOrdersListResponse.status:type_name -> common.ResponseStatus
+	13, // 9: order.GetOrdersListResponse.error:type_name -> common.ResponseError
+	0,  // 10: order.GetUserOrdersListResponse.orders_list:type_name -> order.Order
+	12, // 11: order.GetUserOrdersListResponse.status:type_name -> common.ResponseStatus
+	13, // 12: order.GetUserOrdersListResponse.error:type_name -> common.ResponseError
+	12, // 13: order.PayForOrderResponse.status:type_name -> common.ResponseStatus
+	13, // 14: order.PayForOrderResponse.error:type_name -> common.ResponseError
+	1,  // 15: order.OrderService.CreateOrder:input_type -> order.CreateOrderRequest
+	2,  // 16: order.OrderService.CancelOrder:input_type -> order.CancelOrderRequest
+	3,  // 17: order.OrderService.GetOrdersList:input_type -> order.GetOrdersListRequest
+	4,  // 18: order.OrderService.GetUserOrdersList:input_type -> order.GetUserOrdersListRequest
+	5,  // 19: order.OrderService.PayForOrder:input_type -> order.PayForOrderRequest
+	6,  // 20: order.OrderService.CreateOrder:output_type -> order.CreateOrderResponse
+	7,  // 21: order.OrderService.CancelOrder:output_type -> order.CancelOrderResponse
+	8,  // 22: order.OrderService.GetOrdersList:output_type -> order.GetOrdersListResponse
+	9,  // 23: order.OrderService.GetUserOrdersList:output_type -> order.GetUserOrdersListResponse
+	10, // 24: order.OrderService.PayForOrder:output_type -> order.PayForOrderResponse
+	20, // [20:25] is the sub-list for method output_type
+	15, // [15:20] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_shared_proto_order_order_proto_init() }

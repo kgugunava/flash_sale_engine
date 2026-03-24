@@ -51,7 +51,7 @@ message GetUserOrdersListRequest {
 }
 
 message PayForOrderRequest {
-    Order order = 1;
+    string order_id = 1;
 }
 
                                                 ////// RESPONSES //////
