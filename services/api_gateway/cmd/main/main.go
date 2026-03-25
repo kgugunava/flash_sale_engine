@@ -1,13 +1,12 @@
 package main
 
 import (
-	"github.com/kgugunava/flash_sale_engine/api_gateway/internal/transport/http"
-	"github.com/kgugunava/flash_sale_engine/api_gateway/internal/transport/http/handler"
+	"github.com/kgugunava/flash_sale_engine/api_gateway/internal/app"
+	"github.com/kgugunava/flash_sale_engine/api_gateway/internal/config"
 )
 
 func main() {
-	ordersHandler := handler.NewOrdersHandler()
-	apiHandlers := http.NewApiHandlers(ordersHandler)
-	router := http.NewRouter(*apiHandlers)
-	router.Run("0.0.0.0:8080")
+	cfg := config.Load()
+	apiGatewayApp := app.NewApiGatewayApp(*cfg)
+	apiGatewayApp.Router.Run(app.GetServerURL(apiGatewayApp))
 }
