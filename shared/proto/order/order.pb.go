@@ -103,7 +103,8 @@ type CreateOrderRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	ItemName      string                 `protobuf:"bytes,2,opt,name=item_name,json=itemName,proto3" json:"item_name,omitempty"`
-	Time          *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=time,proto3" json:"time,omitempty"`
+	Quantity      int32                  `protobuf:"varint,3,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	Time          *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=time,proto3" json:"time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -150,6 +151,13 @@ func (x *CreateOrderRequest) GetItemName() string {
 		return x.ItemName
 	}
 	return ""
+}
+
+func (x *CreateOrderRequest) GetQuantity() int32 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
 }
 
 func (x *CreateOrderRequest) GetTime() *timestamppb.Timestamp {
@@ -621,11 +629,12 @@ const file_shared_proto_order_order_proto_rawDesc = "" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1b\n" +
 	"\titem_name\x18\x03 \x01(\tR\bitemName\x12\x1a\n" +
 	"\bquantity\x18\x04 \x01(\x05R\bquantity\x12.\n" +
-	"\x04time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x04time\"z\n" +
+	"\x04time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x04time\"\x96\x01\n" +
 	"\x12CreateOrderRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
-	"\titem_name\x18\x02 \x01(\tR\bitemName\x12.\n" +
-	"\x04time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x04time\"/\n" +
+	"\titem_name\x18\x02 \x01(\tR\bitemName\x12\x1a\n" +
+	"\bquantity\x18\x03 \x01(\x05R\bquantity\x12.\n" +
+	"\x04time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x04time\"/\n" +
 	"\x12CancelOrderRequest\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\"\x16\n" +
 	"\x14GetOrdersListRequest\"3\n" +

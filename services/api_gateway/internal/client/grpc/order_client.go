@@ -21,7 +21,16 @@ type OrderClient struct {
 // NewOrderClient создаёт новый Order Service клиент
 // Подключение устанавливается лениво при первом вызове
 func NewOrderClient(address string, log *logger.Logger, timeout time.Duration) *OrderClient {
-    conn, _ := NewClientConnection(address)
+    conn, err := NewClientConnection(address)
+    if err != nil {
+        log.Error("Failed to create gRPC connection",
+            logger.String("address", address),
+            logger.Error(err),
+        )
+        // Вернём OrderClient с nil conn, но с логированием ошибки
+        // Ошибка возникнет при первом вызове метода
+        return nil
+    }
     
     return &OrderClient{
         conn:    conn,

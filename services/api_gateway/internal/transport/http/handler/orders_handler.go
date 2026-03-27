@@ -4,21 +4,50 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+
+	"github.com/kgugunava/flash_sale_engine/api_gateway/internal/service"
+	"github.com/kgugunava/flash_sale_engine/api_gateway/internal/domain"
+	model_orders_requests "github.com/kgugunava/flash_sale_engine/api_gateway/internal/model/orders/requests"
+	model_errors "github.com/kgugunava/flash_sale_engine/api_gateway/internal/model/errors"
 )
 
 type OrdersHandler struct {
-
+	ordersService *service.OrdersService
 }
 
-func NewOrdersHandler() *OrdersHandler {
-	return &OrdersHandler{}
+func NewOrdersHandler(ordersService *service.OrdersService) *OrdersHandler {
+	return &OrdersHandler{ordersService: ordersService}
 }
 
 func (h *OrdersHandler) CreateOrderPost(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"status": "OK",
-	})
-	
+	var req model_orders_requests.OrdersCreateOrderPostRequest
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, model_errors.ErrorResponse{
+			Error: model_errors.ErrorResponseError{
+				Code: "INTERNAL_ERROR",
+				Message: err.Error(),
+			},
+		})
+	}
+
+	domainReq := domain.JsonCreateOrderRequestToDomain(&req)
+
+	resp, err := h.ordersService.CreateOrder(c.Request.Context(), domainReq)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, model_errors.ErrorResponse{
+			Error: model_errors.ErrorResponseError{
+				Code: "INTERNAL_ERROR",
+				Message: err.Error(),
+			},
+		})
+	}
+
+	jsonResp := domain.DomainCreateOrderResponseToJson201Response(resp)
+
+	c.JSON(201, jsonResp)
+
 }
 
 func (h *OrdersHandler) CancelOrderPost(c *gin.Context) {
