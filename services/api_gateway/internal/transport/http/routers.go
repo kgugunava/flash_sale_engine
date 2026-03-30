@@ -52,7 +52,7 @@ type ApiHandlers struct {
 }
 
 func NewApiHandlers(ordersHandler *handler.OrdersHandler) *ApiHandlers {
-	return &ApiHandlers{}
+	return &ApiHandlers{OrdersHandler: *ordersHandler}
 }
 
 func getRoutes(handlers ApiHandlers) []Route {

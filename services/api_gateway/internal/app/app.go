@@ -25,11 +25,40 @@ func NewApiGatewayApp(cfg config.Config) *ApiGatewayApp {
 		Cfg: &cfg,
 		Logger: logger.NewLogger(),
 	}
-	orderClient := grpc.NewOrderClient("localhost:8090", apiGatewayApp.Logger, 10 * time.Second)
+	
+	// Пытаемся подключиться 5 раз с интервалом в 1 секунду
+	var orderClient *grpc.OrderClient
+	maxRetries := 5
+	for i := 0; i < maxRetries; i++ {
+		orderClient = grpc.NewOrderClient("localhost:8020", apiGatewayApp.Logger, 10 * time.Second)
+		if orderClient != nil {
+			apiGatewayApp.Logger.Info("Successfully connected to OrderService",
+				logger.Int("attempt", i+1),
+			)
+			break
+		}
+		
+		if i < maxRetries-1 {
+			apiGatewayApp.Logger.Warn("Failed to connect to OrderService, retrying...",
+				logger.Int("attempt", i+1),
+				logger.Int("max_retries", maxRetries),
+			)
+			time.Sleep(time.Second)
+		}
+	}
+	
 	if orderClient == nil {
-		apiGatewayApp.Logger.Error("Failed to initialize OrderClient")
+		apiGatewayApp.Logger.Panic("Failed to initialize OrderClient after all retries",
+			logger.Int("max_retries", maxRetries),
+		)
 		return nil
 	}
+
+	if orderClient != nil {
+		apiGatewayApp.Logger.Info("order client not nil")
+	}
+
+	fmt.Print("orderClient: ", orderClient)
 	
 	ordersService := service.NewOrderService(orderClient)
 	ordersHandler := handler.NewOrdersHandler(ordersService)

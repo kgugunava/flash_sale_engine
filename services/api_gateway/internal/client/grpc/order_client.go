@@ -1,13 +1,14 @@
 package grpc
 
 import (
-    "context"
-    "time"
+	"context"
+	"fmt"
+	"time"
 
-    "google.golang.org/grpc"
-    
-    pb "github.com/kgugunava/flash_sale_engine/shared/proto/order"
-    "github.com/kgugunava/flash_sale_engine/pkg/logger"
+	"google.golang.org/grpc"
+
+	"github.com/kgugunava/flash_sale_engine/pkg/logger"
+	pb "github.com/kgugunava/flash_sale_engine/shared/proto/order"
 )
 
 // OrderClient — gRPC клиент к Order Service
@@ -19,7 +20,7 @@ type OrderClient struct {
 }
 
 // NewOrderClient создаёт новый Order Service клиент
-// Подключение устанавливается лениво при первом вызове
+// Подключение устанавливается синхронно перед возвратом
 func NewOrderClient(address string, log *logger.Logger, timeout time.Duration) *OrderClient {
     conn, err := NewClientConnection(address)
     if err != nil {
@@ -27,10 +28,9 @@ func NewOrderClient(address string, log *logger.Logger, timeout time.Duration) *
             logger.String("address", address),
             logger.Error(err),
         )
-        // Вернём OrderClient с nil conn, но с логированием ошибки
-        // Ошибка возникнет при первом вызове метода
         return nil
     }
+
     
     return &OrderClient{
         conn:    conn,
@@ -43,7 +43,13 @@ func NewOrderClient(address string, log *logger.Logger, timeout time.Duration) *
 // CreateOrder создаёт новый заказ
 func (c *OrderClient) CreateOrder(ctx context.Context, req *pb.CreateOrderRequest) (*pb.CreateOrderResponse, error) {
     // Добавляем таймаут к контексту ВЫЗОВА (не подключения!)
+
+    fmt.Println("here")
+
     ctx, cancel := context.WithTimeout(ctx, c.timeout)
+
+    fmt.Println("here2")
+
     defer cancel()
 
     c.log.Debug("Calling OrderService.CreateOrder",
@@ -54,19 +60,24 @@ func (c *OrderClient) CreateOrder(ctx context.Context, req *pb.CreateOrderReques
 
     // Вызываем gRPC метод
     // Ошибка подключения вернётся здесь если сервер недоступен
+    fmt.Println("here3")
     resp, err := c.client.CreateOrder(ctx, req)
+    fmt.Println("here4")
     if err != nil {
         return nil, NewGRPCError(err, "CreateOrder")
     }
+    fmt.Println("here5")
 
-    c.log.Debug("OrderService.CreateOrder completed",
-        logger.String("order_id", resp.Order.OrderId),
-        logger.Bool("status_success", resp.Status.Success),
-        logger.String("status_code", resp.Status.Code),
-        logger.String("status_message", resp.Status.Message),
-        logger.String("error_code", resp.Error.Code),
-        logger.String("error_message", resp.Error.Message),
-    )
+    // c.log.Debug("OrderService.CreateOrder completed",
+    //     logger.String("order_id", resp.Order.OrderId),
+    //     logger.Bool("status_success", resp.Status.Success),
+    //     logger.String("status_code", resp.Status.Code),
+    //     logger.String("status_message", resp.Status.Message),
+    //     logger.String("error_code", resp.Error.Code),
+    //     logger.String("error_message", resp.Error.Message),
+    // )
+
+    fmt.Println("here6")
 
     return resp, nil
 }

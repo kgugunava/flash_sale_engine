@@ -1,10 +1,12 @@
 package domain
 
 import (
+	"time"
+
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	model_orders_requests "github.com/kgugunava/flash_sale_engine/api_gateway/internal/model/orders/requests"
 	model_orders "github.com/kgugunava/flash_sale_engine/api_gateway/internal/model/orders"
+	model_orders_requests "github.com/kgugunava/flash_sale_engine/api_gateway/internal/model/orders/requests"
 	model_orders_responses "github.com/kgugunava/flash_sale_engine/api_gateway/internal/model/orders/responses"
 	pb_common "github.com/kgugunava/flash_sale_engine/shared/proto/common"
 	pb_order "github.com/kgugunava/flash_sale_engine/shared/proto/order"
@@ -55,10 +57,25 @@ func ProtoCreateOrderResponseToDomain(protoResp *pb_order.CreateOrderResponse) *
 		return nil
 	}
 
+	var order Order
+	if protoResp.Order != nil {
+		order = *ProtoOrderToDomain(protoResp.Order)
+	}
+	
+	var status ResponseStatus
+	if protoResp.Status != nil {
+		status = *ProtoResponseStatusToDomain(protoResp.Status)
+	}
+	
+	var errResp ResponseError
+	if protoResp.Error != nil {
+		errResp = *ProtoResponseErrorToDomain(protoResp.Error)
+	}
+
 	return &CreateOrderResponse{
-		Order: *ProtoOrderToDomain(protoResp.Order),
-		Status: *ProtoResponseStatusToDomain(protoResp.Status),
-		Error: *ProtoResponseErrorToDomain(protoResp.Error),
+		Order: order,
+		Status: status,
+		Error: errResp,
 	}
 }
 
@@ -83,11 +100,17 @@ func DomainCreateOrderRequestToProto(req *CreateOrderRequest) *pb_order.CreateOr
 		return nil
 	}
 
+	// Если Time не установлено, используем текущее время
+	orderTime := req.Time
+	if orderTime.IsZero() {
+		orderTime = time.Now()
+	}
+
 	return &pb_order.CreateOrderRequest{
 		UserId: req.UserID,
 		ItemName: req.ItemName,
 		Quantity: int32(req.Quantity),
-		Time: timestamppb.New(req.Time),
+		Time: timestamppb.New(orderTime),
 	}
 }
 
